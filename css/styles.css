@@ -1,0 +1,327 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Coda:wght@400;800&family=Playwrite+HR+Lijeva:wght@100..400&display=swap');
+
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.font2 {
+
+    font-family: "Playwrite HR Lijeva", cursive !important;
+    font-optical-sizing: auto;
+}
+
+.font3 {
+    font-family: "Coda", system-ui !important;
+    font-style: normal;
+}
+
+.font4 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    font-optical-sizing: auto;
+}
+
+html {
+    scroll-behavior: smooth;
+
+}
+
+li,
+a,
+button,
+p,
+input {
+    list-style: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* img {
+    height: 100%;
+    width: 100%;
+} */
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+body {
+    background-color: rgb(10, 0, 0);
+}
+
+.container {
+
+    position: relative;
+    width: 95vw;
+    height: 80vh;
+    border: 1px solid black;
+    margin: 25px auto;
+    padding: 2px;
+    overflow: hidden;
+}
+
+
+.gun {
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    top: 50px;
+    left: 50px;
+}
+
+.bul {
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    display: none;
+}
+
+.bomb {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: none;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.enemy {
+    position: absolute;
+    width: 70px;
+    height: 60px;
+}
+
+.stand {
+    position: absolute;
+    background-color: rgb(10, 10, 10);
+    width: 240px;
+    height: 30px;
+    bottom: 300px;
+}
+
+.standin {
+    position: absolute;
+    border: 5px solid rgb(5, 0, 0);
+    border-left: none;
+    border-right: none;
+    width: 270px;
+    height: 100px;
+    bottom: 150px;
+    right: 0;
+}
+
+.st2 {
+    background-image: url('../img/wall_brick.png');
+    background-size: 90%;
+    bottom: 0;
+    width: 60px;
+    height: 100px;
+    right: 450px;
+    background-color: rgb(15, 2, 2);
+}
+
+.st3 {
+    top: 60px;
+    width: 10px;
+    height: 100px;
+    right: 370px;
+    border: 2px solid;
+    background-color: rgb(12, 1, 1);
+}
+.boss{
+    display: none;
+}
+
+.bosses {
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 60px;
+    left: 700px;
+    display: none;
+    animation: 6s grow linear forwards;
+    animation-delay: 2s;
+}
+.laser {
+    transition: .3s;
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    top: 210px;
+    left: 602px;
+    display: none;
+}
+
+@keyframes grow {
+    to {
+        height: 550px;
+        width: 250px;
+    }
+}
+
+.born {
+    transition: .3s;
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 60px;
+    left: 700px;
+    display: none;
+
+    animation: 6s grow linear forwards;
+}
+
+.health {
+    position: absolute;
+    width: 210px;
+    height: 20px;
+    left: 730px;
+    top: 160px;
+    background-color: rgb(153, 23, 23);
+}
+
+.fire {
+    transition: .1s;
+    position: absolute;
+    width: 60px;
+    height: 40px;
+    left: 40px;
+    top: 100px;
+    display: none;
+}
+
+.bleed {
+    position: absolute;
+    width: 150px;
+    height: 100px;
+    right: 580px;
+    top: 300px;
+
+    display: none;
+}
+
+.incr {
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+}
+
+.soilhealth {
+    position: absolute;
+    width: 100px;
+    height: 13px;
+    left: 10px;
+    top: 30px;
+    background-color: rgb(85, 5, 5);
+}
+
+.hlt {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(179, 255, 0);
+}
+
+.killed {
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.shoot {
+    margin-top: 20px;
+}
+
+.bomb-info {
+    margin-top: 20px;
+}
+
+.sky {
+    height: 81%;
+}
+
+.sand {
+    height: 22%;
+}
+
+.shadow-man {
+    transition: .1s;
+    position: absolute;
+    width: 170px;
+    height: 220px;
+    background: url('../img/shadow_man.png') no-repeat center;
+    background-size: cover;
+    left: 90px;
+    top: 180px;
+}
+
+.cover {
+    top: 90px;
+    left: 95px;
+    width: 20px;
+    height: 50px;
+    border: 2px solid;
+    background-color: rgb(12, 1, 1);
+}
+
+.soil {
+    scale: 0.5;
+}
+
+.soil2 {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    top: 55px;
+    display: none;
+}
+
+.contlay {
+    width: 80vw;
+    height: 5vh;
+    margin:20px auto;
+    justify-content: space-between;
+    background-color: rgb(231, 229, 229);
+    border-radius: 20%;
+}
+
+.contlay div {
+    width: 30%;
+    height: 100%;
+    font-size: 25px;
+    font-weight: 700;
+    color: blue;
+}
+.hit p{
+    color: red;
+}
+.coin p{
+    color: rgb(168, 146, 19);
+}
+.contlay span {
+    color: rgb(11, 116, 116);
+}
+
+.sky2 {
+
+    display: none;
+}
+.display{
+    width: 90vw;
+    height: 80vh;
+    margin:65px auto;
+    display: none;
+}
