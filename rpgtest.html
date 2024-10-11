@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-3.7.1.js"></script>
+    <title>Gun Shooting Game</title>
+    <style>
+        .container {
+            position: relative;
+            width: 95vw;
+            height: 80vh;
+            border: 1px solid black;
+            margin: 50px auto;
+            overflow: hidden;
+        }
+
+        .shadow-man {
+            position: absolute;
+            width: 120px;
+            height: 350px;
+            background: url('img/shadow_man.png') no-repeat center;
+            background-size: cover;
+            left: 50px;
+            top: 50px;
+        }
+
+        .gun {
+            position: absolute;
+            width: 100px;
+            height: 50px;
+            top: 190px;
+            left: 120px;
+        }
+
+        .bul {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            display: none;
+        }
+
+        .bomb {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            display: none;
+            /* Initially hidden */
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .enemy {
+            position: absolute;
+            width: 70px;
+            height: 60px;
+        }
+
+        .stand {
+            position: absolute;
+            background-color: rgb(10, 10, 10);
+            width: 240px;
+            height: 30px;
+            bottom: 300px;
+        }
+
+        .standin {
+            position: absolute;
+            border: 5px solid rgb(5, 0, 0);
+            border-left: none;
+            border-right: none;
+            width: 270px;
+            height: 100px;
+            bottom: 150px;
+            right: 0;
+        }
+
+        .st2 {
+            background-image: url(img/—Pngtree—wall\ brick\ wall\ molding\ wall_3822945.png);
+            background-size: 90%;
+            bottom: 0;
+            width: 60px;
+            height: 100px;
+            right: 450px;
+
+            /* border: 2px solid;
+            */
+            background-color: rgb(15, 2, 2);
+        }
+
+        .st3 {
+            top: 60px;
+            width: 10px;
+            height: 100px;
+            right: 370px;
+            border: 2px solid;
+            background-color: rgb(12, 1, 1);
+        }
+
+        .bosses {
+            position: absolute;
+            width: 250px;
+            height: 500px;
+            bottom: 60px;
+            left: 700px;
+            /* Initially hidden */
+        }
+
+        .health {
+            position: absolute;
+            width: 210px;
+            height: 20px;
+            left: 730px;
+            top: 160px;
+            background-color: white;
+        }
+
+        .incr {
+            width: 100%;
+            height: 100%;
+            background-color: blue;
+        }
+
+        .killed {
+            margin-top: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .shoot {
+            margin-top: 20px;
+        }
+
+        .bomb-info {
+            margin-top: 20px;
+        }
+
+        .sky {
+            height: 81%;
+        }
+
+        .sand {
+            height: 22%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <img class="sky" src="img/cloud1.jpeg" alt="">
+        <img class="sand" src="img/sand1.jpeg" alt="">
+        <div class="boss">
+
+            <div class="bosses">
+
+            </div>
+            <div class="health">
+                <div class="incr"></div>
+            </div>
+        </div> <!-- Boss with health bar -->
+        <div class="shadow-man">
+            <div class="gun"><img src="img/gun.webp" alt=""></div>
+        </div>
+        <div class="stand"></div>
+        <div class="bul"><img src="img/bul1.png" alt=""></div>
+        <div class="bomb"><img src="img/bomb.png" alt=""></div> <!-- Bomb image -->
+
+        <div class="standin"><img src="img/—Pngtree—wall brick wall molding wall_3822945.png" alt=""></div>
+        <div class="standin st2"></div>
+        <div class="standin st3"><img src="img/—Pngtree—wall brick wall molding wall_3822945.png" alt=""></div>
+
+    </div>
+    <!-- <div class="killed">Hits: 0</div>
+    <div class="bomb-info">Bombs: <span class="bomb-count">1</span></div>
+    <button class="shoot">Shoot</button>
+    <button class="bomb-button">Throw Bomb</button>
+    <p>Use arrow keys to rotate the gun and shoot in the direction it's facing!</p> -->
+
+    <script>
+$(document).ready(function () {
+    class Game {
+        constructor() {
+            this.flases = [true, true, true, 1, true, true];
+            this.lowing = [100, 100, 0, 0]; // [soldierHealth, bossHealth, kills, coins]
+            this.gunAngle = 0;
+            this.bulletSpeed = 40;
+            this.bulletInterval = null;
+            this.timeinMin = 2;
+            this.timeinSec = 30;
+            this.enemies = []; // Array to store enemies
+            this.container = document.querySelector('.container');
+            this.boss = document.querySelector('.bosses');
+            this.bosses = document.querySelector('.boss');
+            this.healthBoss = document.querySelector('.incr');
+            this.healthSoldier = document.querySelector('.hlt');
+            this.killcont = document.querySelector('.hit span');
+            this.coin = document.querySelector('.coin span');
+            this.time = document.querySelector('.time span');
+            this.lase = document.querySelector('.laser');
+            this.gun = document.querySelector('.gun');
+            this.soldier = document.querySelector('.soil1');
+            this.bullet = document.querySelector('.bul');
+            this.barriers = document.querySelectorAll('.standin, .st2, .st3');
+            this.bossRect = this.boss.getBoundingClientRect();
+            this.timerInterval = null;
+            this.init();
+        }
+
+        init() {
+            this.bindEvents();
+        }
+
+        bindEvents() {
+            window.addEventListener('keydown', (e) => this.handleKeydown(e));
+            $(".start").click(() => this.startGame());
+        }
+
+        createEnemy(topPosition) {
+            const enemy = document.createElement('div');
+            enemy.classList.add('enemy');
+            const enemyImage = document.createElement('img');
+            const enemyImages = [
+                'img/F-chara Dragon knight01.png',
+                'img/F-chara Dragon knight02.png',
+                'img/F-chara Dragon knight03.png',
+                'img/F-chara Dragon knight04.png',
+                'img/F-chara Dragon knight05.png',
+                'img/F-chara Dragon knight06.png',
+                'img/F-chara Dragon knight07.png',
+                'img/F-chara Dragon knight08.png'
+            ];
+
+            const randomImageIndex = Math.floor(Math.random() * enemyImages.length);
+            const selectedImage = enemyImages[randomImageIndex];
+
+            enemyImage.src = selectedImage;
+            enemy.appendChild(enemyImage);
+
+            enemy.style.top = `${topPosition}px`;
+            enemy.style.left = `${this.container.clientWidth + 50}px`;
+            this.container.appendChild(enemy);
+            this.enemies.push(enemy);
+        }
+
+        spawnEnemiesRandomly() {
+            if (this.flases[2]) {
+                for (let i = 0; i < 2; i++) {
+                    let delay = Math.random() * 3000 + 1000;
+                    let topPosition = Math.random() * (this.container.clientHeight - 50);
+
+                    setTimeout(() => {
+                        this.createEnemy(topPosition);
+                    }, delay);
+                }
+            }
+        }
+
+        moveEnemies() {
+            const barriers = this.barriers;
+            this.enemies.forEach((enemy, index) => {
+                let enemyRect = enemy.getBoundingClientRect();
+                let newLeft = parseInt(enemy.style.left) - 1;
+                let newTop = parseInt(enemy.style.top);
+
+                let avoidBarrier = false;
+                barriers.forEach(barrier => {
+                    let barrierRect = barrier.getBoundingClientRect();
+
+                    if (
+                        enemyRect.right > barrierRect.left &&
+                        enemyRect.left < barrierRect.right &&
+                        enemyRect.bottom > barrierRect.top &&
+                        enemyRect.top < barrierRect.bottom
+                    ) {
+                        avoidBarrier = true;
+                    }
+                });
+
+                if (avoidBarrier) {
+                    newTop += Math.random() > 0.3 ? -10 : 7;
+                }
+
+                enemy.style.left = `${newLeft}px`;
+                enemy.style.top = `${newTop}px`;
+
+                if (newLeft < 250) {
+                    this.hitSoldier();
+                    this.container.removeChild(enemy);
+                    this.enemies.splice(index, 1);
+                }
+            });
+        }
+
+        hitSoldier() {
+            $('.fire').show(); // Keeping the fire effect
+            setTimeout(() => {
+                $('.fire').hide();
+            }, 100);
+            this.lowing[0] -= 2;
+            this.healthSoldier.style.width = `${this.lowing[0]}%`;
+        }
+
+        rotateGun(angle) {
+            this.gunAngle += angle;
+
+            if (this.gunAngle > 40) {
+                this.gunAngle = 40;
+            } else if (this.gunAngle < -40) {
+                this.gunAngle = -40;
+            }
+
+            this.bullet.style.transform = `rotate(${this.gunAngle}deg)`;
+            this.gun.style.transform = `rotate(${this.gunAngle}deg)`;
+        }
+
+        shoot() {
+            clearInterval(this.bulletInterval);
+            const gunRect = this.gun.getBoundingClientRect();
+            const gunTipX = gunRect.right - 60;
+            const gunTipY = gunRect.top - 75;
+
+            this.bullet.style.left = `${gunTipX}px`;
+            this.bullet.style.top = `${gunTipY}px`;
+            this.bullet.style.display = 'block';
+
+            let angleInRadians = this.gunAngle * (Math.PI / 180);
+            let bulletX = gunTipX;
+            let bulletY = gunTipY;
+
+            this.bulletInterval = setInterval(() => {
+                bulletX += this.bulletSpeed * Math.cos(angleInRadians);
+                bulletY += this.bulletSpeed * Math.sin(angleInRadians);
+                this.bullet.style.left = `${bulletX}px`;
+                this.bullet.style.top = `${bulletY}px`;
+
+                this.checkCollisions(bulletX, bulletY);
+            }, 10);
+        }
+
+        checkCollisions(bulletX, bulletY) {
+            const bulletRect = this.bullet.getBoundingClientRect();
+
+            // Check barriers
+            this.barriers.forEach(barrier => {
+                const barrierRect = barrier.getBoundingClientRect();
+
+                if (
+                    bulletRect.right >= barrierRect.left &&
+                    bulletRect.left <= barrierRect.right &&
+                    bulletRect.bottom >= barrierRect.top &&
+                    bulletRect.top <= barrierRect.bottom
+                ) {
+                    clearInterval(this.bulletInterval);
+                    this.bulletDrop(bulletX, bulletY);
+                }
+            });
+
+            // Check enemies
+            this.enemies.forEach((enemy, index) => {
+                const enemyRect = enemy.getBoundingClientRect();
+
+                if (
+                    bulletRect.right >= enemyRect.left &&
+                    bulletRect.left <= enemyRect.right &&
+                    bulletRect.bottom >= enemyRect.top &&
+                    bulletRect.top <= enemyRect.bottom
+                ) {
+                    this.lowing[2]++;
+                    this.lowing[3] += 5;
+                    this.killcont.innerHTML = this.lowing[2];
+                    this.coin.innerHTML = this.lowing[3];
+
+                    this.container.removeChild(enemy);
+                    this.enemies.splice(index, 1);
+                    this.bullet.style.display = 'none';
+                    clearInterval(this.bulletInterval);
+                }
+            });
+
+            // Check boss
+            if (
+                bulletRect.right >= this.bossRect.left &&
+                bulletRect.left <= this.bossRect.right &&
+                bulletRect.bottom >= this.bossRect.top &&
+                bulletRect.top <= this.bossRect.bottom
+            ) {
+                this.hitBoss();
+            }
+
+            // Bullet out of bounds
+            if (bulletX > window.innerWidth || bulletX < 0 || bulletY > window.innerHeight || bulletY < 0) {
+                this.bullet.style.display = 'none';
+                clearInterval(this.bulletInterval);
+            }
+        }
+
+        hitBoss() {
+            $('.bleed').show(); // Keeping the bleed effect
+            setTimeout(() => {
+                $('.bleed').hide();
+            }, 300);
+
+            if (this.flases[3] === 2) {
+                this.lowing[1]--;
+            }
+            this.healthBoss.style.width = `${this.lowing[1]}%`;
+            this.bullet.style.display = 'none';
+            clearInterval(this.bulletInterval);
+        }
+
+        bulletDrop(bulletX, bulletY) {
+            let dropInterval = setInterval(() => {
+                bulletY += 5;
+                this.bullet.style.top = `${bulletY}px`;
+
+                if (bulletY > this.container.clientHeight) {
+                    this.bullet.style.display = 'none';
+                    clearInterval(dropInterval);
+                }
+            }, 20);
+        }
+
+        laserAttack() {
+            if (this.flases[3] === 2) {
+                const soldierRect = this.soldier.getBoundingClientRect();
+                this.lase.style.display = 'block';
+
+                let laserX = soldierRect.left - 110;
+                let laserY = soldierRect.top - 140;
+
+                setTimeout(() => {
+                    this.lase.style.left = `${laserX}px`;
+                    this.lase.style.top = `${laserY}px`;
+
+                    if (this.flases[0] && laserX < soldierRect.right || laserX > soldierRect.left) {
+                        this.lowing[0] -= 20;
+                        this.healthSoldier.style.width = `${this.lowing[0]}%`;
+
+                        if (this.lowing[0] <= 20) {
+                            this.lowing[0] = 0;
+                            clearInterval(this.timerInterval);
+                            this.healthSoldier.style.width = `0%`;
+                            // Add additional actions on game over here
+                        }
+                    }
+
+                    setTimeout(() => {
+                        this.lase.style.display = 'none';
+                    }, 300);
+                }, 400);
+            }
+        }
+
+        startGame() {
+            $(".home").hide()
+            $(".aud").html(` <audio src="audio/Amaarae-Sad-Girlz-Luv-Money-(TrendyBeatz.com).mp3" autoplay controls></audio>`)
+            $(".hide").slideDown()
+            setTimeout(function () {
+                clearInterval(this.timerInterval);
+                this.timerInterval = setInterval(() => this.updateTimer(), 1000);
+                this.lowing = [100, 100, 0, 0];
+                this.healthSoldier.style.width = `${this.lowing[0]}%`;
+                this.healthBoss.style.width = `${this.lowing[1]}%`;
+                this.spawnEnemiesRandomly();
+                gameTiming()
+                $(".hide").slideUp()
+                $("main").slideDown()
+
+            }, 3500)
+        }
+
+        updateTimer() {
+            if (this.timeinSec === 0) {
+                this.timeinMin--;
+                this.timeinSec = 60;
+            }
+
+            this.timeinSec--;
+            this.time.innerHTML = `${this.timeinMin}:${this.timeinSec}`;
+
+            if (this.timeinMin === 0 && this.timeinSec === 0) {
+                clearInterval(this.timerInterval);
+                // Handle game over by time out
+            }
+        }
+
+        handleKeydown(e) {
+            switch (e.code) {
+                case 'ArrowUp':
+                    this.rotateGun(-5);
+                    break;
+                case 'ArrowDown':
+                    this.rotateGun(5);
+                    break;
+                case 'Space':
+                    this.shoot();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    new Game(); // Start the game
+});
+
+    </script>
+
+</body>
+
+</html>
