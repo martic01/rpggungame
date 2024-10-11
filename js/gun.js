@@ -2,11 +2,12 @@ let gunAngle = 0;
 const bullet = document.querySelector('.bul');
 const bulletSpeed = 40
 $(document).ready(function () {
-    let flases = [true, true, true,1]
+    let flases = [true, true, true, 1,true]
     let lowing = [100, 100, 0, 0];
     let gunAngle = 0;
     let killcont = document.querySelector('.hit span');
     let coin = document.querySelector('.coin span');
+    let time = document.querySelector('.time span');
     const lase = document.querySelector('.laser');
     const gun = document.querySelector('.gun');
     const soldier = document.querySelector('.soil1');
@@ -79,7 +80,7 @@ $(document).ready(function () {
     function spawnEnemiesRandomly() {
 
         if (flases[2]) {
-            for (let i = 0; i < 1; i++) {
+            for (let i = 0; i < 2; i++) {
                 // Random delay for enemy appearance
                 let delay = Math.random() * 3000 + 1000; // Random delay between 1 and 4 seconds
                 let topPosition = Math.random() * (container.clientHeight - 50); // Random top position
@@ -244,7 +245,9 @@ $(document).ready(function () {
                 setTimeout(function () {
                     $('.bleed').hide()
                 }, 300)
-                lowing[1]--;
+                if(flases[3] === 2){
+                    lowing[1]--;
+                }
 
                 // Update the boss health bar
                 healthBoss.style.width = `${lowing[1]}%`
@@ -304,7 +307,7 @@ $(document).ready(function () {
                 lase.style.top = `210px`;
                 lase.style.display = 'none';
             }, 1000); // Laser will be visible for 500ms
-           
+
 
         }
         // Check if the laser hits the soldier
@@ -316,13 +319,14 @@ $(document).ready(function () {
 
 
     function inOut() {
-        if (lowing[2] === 5) {
+        if (lowing[2] === 50) {
             $('.sky2').show()
             $('.sky1').hide()
             $('.born').show()
             $('.bosses').show()
             flases[1] = false
             flases[2] = false
+            flases[4] = false
             lowing[2] = + 1
             bosses.style.display = 'block';
             setTimeout(function () {
@@ -331,38 +335,78 @@ $(document).ready(function () {
                 $('.sky2').hide()
                 $('.sky1').show()
                 flases[1] = true
+                flases[4] = true
                 flases[3] = 2
                 bosses.style.display = 'block';
             }, 10000)
         }
     }
-function died (){
- if (lowing[1] <= 0) {
-        $('.born').show()
-        flases[1] = false
-        flases[3] = 1
-        $('.display').slideDown()
-        $('.fal').slideUp()
-        $('.suc').slideDown()
-        $('main').slideUp()
-        setTimeout(function () {
-            bosses.style.display = 'none'; //
-        }, 1000)
 
-    }else if (lowing[0] <= 0) {
-        $('.fire').show()
-        flases[1] = false
-         flases[3] = 1
-    
-         $('.soil1').hide()
-         $('.soil2').show()
-         $('.display').slideDown()
-         $('.fal').slideDown()
-         $('.suc').slideUp()
-         $('main').slideUp()
+    function gameTiming() {
+        let timeinMin = 2
+        let timeinSec = 30
+
+        setInterval(function () {
+           if(flases[4]){
+            timeinSec--
+           }
+            if (timeinSec === 0) {
+                timeinSec = 60
+                timeinMin--
+               
+              
+                
+            }else if (timeinMin === 0 && timeinSec === 0) {
+                timeinSec = 0
+                timeinMin = 0
+                flases[1] = false
+                flases[4] = false
+                flases[3] = 1
+                timeinMin = 2
+                timeinSec = 60
+                $('.display').slideDown()
+                $('.fal').slideDown()
+                $('.suc').slideUp()
+                $('main').slideUp()
+            }
+              time.innerHTML = `${timeinMin} : ${timeinSec}`
+        }, 1000)
+       
+       
     }
-}
-setInterval(died,1)
+
+    function died() {
+        if (lowing[1] <= 0) {
+            $('.born').show()
+            flases[1] = false
+            flases[4] = false
+            flases[3] = 1
+            timeinMin = 2
+            timeinSec = 60
+            $('.display').slideDown()
+            $('.fal').slideUp()
+            $('.suc').slideDown()
+            $('main').slideUp()
+            setTimeout(function () {
+                bosses.style.display = 'none'; //
+            }, 1000)
+
+        } else if (lowing[0] <= 0) {
+            $('.fire').show()
+            flases[1] = false
+            flases[4] = false
+            flases[3] = 1
+            timeinMin = 2
+            timeinSec = 60
+            $('.soil1').hide()
+            $('.soil2').show()
+            $('.display').slideDown()
+            $('.fal').slideDown()
+            $('.suc').slideUp()
+            $('main').slideUp()
+        }
+    }
+    setInterval(died, 1)
 
     // Function to make the bullet drop down after hitting a barrier
     function bulletDrop(bulletX, bulletY) {
@@ -406,9 +450,9 @@ setInterval(died,1)
                 rotateGun(5);
                 break;
             case 'x': // Use 'x' to shoot
-                if (flases[0] && flases[1]) {
-                    shoot();
-                }
+            if (flases[0] && flases[1]) {
+                shoot();
+            }     
                 break;
             case 'c': // Use 'b' to throw a bomb
                 crouch();
@@ -426,5 +470,5 @@ setInterval(died,1)
 
     setInterval(spawnEnemiesRandomly, 2000);
 
-
+    gameTiming()
 });
