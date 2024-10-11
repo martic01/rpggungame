@@ -319,7 +319,7 @@ $(document).ready(function () {
 
 
     function inOut() {
-        if (lowing[2] === 5) {
+        if (lowing[2] === 50) {
             $(".aud").html(`<audio src="audio/natural-thunder-113219.mp3" autoplay controls></audio>`)
             $('.sky2').show()
             $('.sky1').hide()
