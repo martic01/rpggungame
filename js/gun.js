@@ -1,8 +1,8 @@
-let gunAngle = 0;
+
 const bullet = document.querySelector('.bul');
 const bulletSpeed = 40
 $(document).ready(function () {
-    let flases = [true, true, true, 1,true]
+    let flases = [true, true, true, 1, true,true]
     let lowing = [100, 100, 0, 0];
     let gunAngle = 0;
     let killcont = document.querySelector('.hit span');
@@ -21,7 +21,7 @@ $(document).ready(function () {
     const bulletSpeed = 40;
     let bulletInterval;
 
-
+   
     // Array to store enemies
     let enemies = [];
 
@@ -184,11 +184,10 @@ $(document).ready(function () {
         let angleInRadians = gunAngle * (Math.PI / 180);
         let bulletX = gunTipX;
         let bulletY = gunTipY;
-
+       
         bulletInterval = setInterval(() => {
             bulletX += bulletSpeed * Math.cos(angleInRadians);
             bulletY += bulletSpeed * Math.sin(angleInRadians);
-
             bullet.style.left = `${bulletX}px`;
             bullet.style.top = `${bulletY}px`;
 
@@ -245,7 +244,7 @@ $(document).ready(function () {
                 setTimeout(function () {
                     $('.bleed').hide()
                 }, 300)
-                if(flases[3] === 2){
+                if (flases[3] === 2) {
                     lowing[1]--;
                 }
 
@@ -285,6 +284,7 @@ $(document).ready(function () {
                 ) {
 
                     // Reduce soldier's health by 20 points
+                    $(".aud").html(`<audio src="audio/young-man-being-hurt-95628.mp3" autoplay controls></audio>`)
                     $('.fire').show()
                     setTimeout(function () {
                         $('.fire').hide()
@@ -298,7 +298,7 @@ $(document).ready(function () {
                     // Check if health is depleted (game over condition)
 
                 }
-            }, 500)
+            }, 400)
             // Trigger the laser visually (show it briefly)
 
 
@@ -319,7 +319,8 @@ $(document).ready(function () {
 
 
     function inOut() {
-        if (lowing[2] === 50) {
+        if (lowing[2] === 5) {
+            $(".aud").html(`<audio src="audio/natural-thunder-113219.mp3" autoplay controls></audio>`)
             $('.sky2').show()
             $('.sky1').hide()
             $('.born').show()
@@ -338,73 +339,124 @@ $(document).ready(function () {
                 flases[4] = true
                 flases[3] = 2
                 bosses.style.display = 'block';
+                $(".aud").html(`  <audio src="audio/evil-laugh-89423.mp3" autoplay controls></audio>`)
             }, 10000)
         }
     }
 
     function gameTiming() {
-        let timeinMin = 2
-        let timeinSec = 30
+        let timeinMin = 2;
+        let timeinSec = 30;
+    
+        function updateDisplay() {
+            const displayMin = timeinMin < 10 ? `0${timeinMin}` : timeinMin;
+            const displaySec = timeinSec < 10 ? `0${timeinSec}` : timeinSec;
+            time.innerHTML = `${displayMin}:${displaySec}`;
+        }
+    
+        // Initial display update
+        updateDisplay();
+    
+        const timerInterval = setInterval(function () {
+            if (!flases[4]) {
+                // If the timer is paused or not active, skip the decrement
+                return;
+            }
+    
+            if (timeinSec > 0) {
+                timeinSec--;
+            } else {
+                if (timeinMin > 0) {
+                    timeinMin--;
+                    timeinSec = 59;
+                } else {
+                    // Time has run out; trigger game over
+                    clearInterval(timerInterval); // Stop the timer
+    
+                    // Display game over effects
+                    $('.fire').show();
+                    flases[1] = false;
+                    flases[4] = false;
+                    flases[3] = 1;
+                    $('.soil1').hide();
+                    $('.soil2').show();
+                    $(".aud").html(` <audio src="audio/Amaarae-Sad-Girlz-Luv-Money-(TrendyBeatz.com).mp3" autoplay controls></audio>`) 
+                    setTimeout(() => {
+                        bosses.style.display = 'none';
+                        $('.display').slideDown();
+                        $('.fal').slideDown();
+                        $('.suc').slideUp();
+                        $('main').slideUp();
+    
+                        setTimeout(function () {
+                            $('.display').slideUp();
+                            $('.home').slideDown();
+                        }, 3000);
+                    }, 6000);
+    
+                    return; // Exit the function to prevent further execution
+                }
+            }
+    
+            updateDisplay()
+        }, 1000); 
+    }
+    
+           
+        
 
-        setInterval(function () {
-           if(flases[4]){
-            timeinSec--
-           }
-            if (timeinSec === 0) {
+
+    
+
+    function died() {
+      if(flases[5]){
+        if (lowing[1] <= 0) {
+            $('.born').show()
+            flases[1] = false
+            flases[4] = false
+            flases[5] = false
+            flases[3] = 1
+            $(".aud").html(` <audio src="audio/Amaarae-Sad-Girlz-Luv-Money-(TrendyBeatz.com).mp3" autoplay controls></audio>`) 
+            setTimeout(function () {
+                bosses.style.display = 'none'; //
+            }, 1000)
+            setTimeout(() => {
+                timeinMin = 2
                 timeinSec = 60
-                timeinMin--
-               
-              
-                
-            }else if (timeinMin === 0 && timeinSec === 0) {
-                timeinSec = 0
-                timeinMin = 0
-                flases[1] = false
-                flases[4] = false
-                flases[3] = 1
+                $('.display').slideDown()
+                $('.fal').slideUp()
+                $('.suc').slideDown()
+                $('main').slideUp()
+                setTimeout(function () {
+                    $('.display').slideUp()
+                    $('.home').slideDown()
+                }, 3000)
+            }, 6000);
+        } else if (lowing[0] <= 0) {
+            $(".aud").html(` <audio src="audio/Amaarae-Sad-Girlz-Luv-Money-(TrendyBeatz.com).mp3" autoplay controls></audio>`) 
+            flases[1] = false
+            flases[4] = false
+            flases[5] = false
+            flases[3] = 1
+            $('.soil1').hide()
+            $('.soil2').show()
+            $('.fire').show()
+            setTimeout(() => {
                 timeinMin = 2
                 timeinSec = 60
                 $('.display').slideDown()
                 $('.fal').slideDown()
                 $('.suc').slideUp()
                 $('main').slideUp()
-            }
-              time.innerHTML = `${timeinMin} : ${timeinSec}`
-        }, 1000)
-       
-       
-    }
+                setTimeout(function () {
+                    $('.display').slideUp()
+                    $('.home').slideDown()
+                }, 3000)
+            }, 6000);
 
-    function died() {
-        if (lowing[1] <= 0) {
-            $('.born').show()
-            flases[1] = false
-            flases[4] = false
-            flases[3] = 1
-            timeinMin = 2
-            timeinSec = 60
-            $('.display').slideDown()
-            $('.fal').slideUp()
-            $('.suc').slideDown()
-            $('main').slideUp()
-            setTimeout(function () {
-                bosses.style.display = 'none'; //
-            }, 1000)
 
-        } else if (lowing[0] <= 0) {
-            $('.fire').show()
-            flases[1] = false
-            flases[4] = false
-            flases[3] = 1
-            timeinMin = 2
-            timeinSec = 60
-            $('.soil1').hide()
-            $('.soil2').show()
-            $('.display').slideDown()
-            $('.fal').slideDown()
-            $('.suc').slideUp()
-            $('main').slideUp()
         }
+      }
     }
     setInterval(died, 1)
 
@@ -433,7 +485,19 @@ $(document).ready(function () {
             flases[0] = true
         }
     }
-
+    function reset (){
+        lowing = [100, 100, 0, 0];
+        flases = [true, true, true, 1, true,true]
+        healthBoss.style.width = `${lowing[1]}%`
+        healthSoldier.style.width = `${lowing[0]}%`
+        bosses.style.display = 'none'; //
+        gunAngle = 0;
+        timeinMin = 2;
+        timeinSec = 30;
+        $('.soil2').hide()
+        $('.soil1').show()
+        $('.fire').hide()
+    }
     // Arrow keys to rotate the gun
     window.addEventListener('keydown', (e) => {
         switch (e.key) {
@@ -450,9 +514,9 @@ $(document).ready(function () {
                 rotateGun(5);
                 break;
             case 'x': // Use 'x' to shoot
-            if (flases[0] && flases[1]) {
-                shoot();
-            }     
+                if (flases[0] && flases[1]) {   
+                    shoot();
+                }
                 break;
             case 'c': // Use 'b' to throw a bomb
                 crouch();
@@ -460,15 +524,19 @@ $(document).ready(function () {
         }
     });
 
-    // Add event listener for shooting
-    // document.querySelector('.shoot').addEventListener('click', shoot);
+    $(".start").click(function () {
+        reset()
+        $(".home").hide()
+        $(".aud").html(` <audio src="audio/Amaarae-Sad-Girlz-Luv-Money-(TrendyBeatz.com).mp3" autoplay controls></audio>`) 
+        $(".hide").slideDown()
+        setTimeout(function () {
+            setInterval(spawnEnemiesRandomly, 2000);
+            gameTiming()
+            $(".hide").slideUp()
+            $("main").slideDown()
+            reset()
+        }, 3500)
+    })
+    $(".aud").html(` <audio src="audio/Amaarae-Sad-Girlz-Luv-Money-(TrendyBeatz.com).mp3" autoplay controls></audio>`)    
 
-    // Add event listener for throwing bombs
-    // document.querySelector('.bomb-button').addEventListener('click', throwBomb);
-
-    // Continuously spawn enemies at random intervals
-
-    setInterval(spawnEnemiesRandomly, 2000);
-
-    gameTiming()
 });
