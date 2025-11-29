@@ -1,14 +1,34 @@
+/* =================== FONTS =================== */
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Coda:wght@400;800&family=Playwrite+HR+Lijeva:wght@100..400&display=swap');
 
+/* =================== RESET / GLOBAL =================== */
 * {
-    margin: 0%;
-    padding: 0%;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     cursor: pointer;
 }
 
-.font2 {
+html {
+    scroll-behavior: smooth;
+}
 
+body {
+    background-color: rgb(10, 0, 0);
+}
+
+li,
+a,
+button,
+p,
+input {
+    list-style: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* =================== FONT HELPERS =================== */
+.font2 {
     font-family: "Playwrite HR Lijeva", cursive !important;
     font-optical-sizing: auto;
 }
@@ -23,26 +43,7 @@
     font-optical-sizing: auto;
 }
 
-html {
-    scroll-behavior: smooth;
-
-}
-
-li,
-a,
-button,
-p,
-input {
-    list-style: none;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-/* img {
-    height: 100%;
-    width: 100%;
-} */
-
+/* =================== FLEX HELPERS =================== */
 .flex {
     display: flex;
     justify-content: center;
@@ -56,88 +57,109 @@ input {
     flex-direction: column;
 }
 
-body {
-    background-color: rgb(10, 0, 0);
+/* =================== GENERIC ELEMENTS =================== */
+img {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
 }
-main{
+
+/* =================== LAYOUT SECTIONS =================== */
+
+main {
     display: none;
 }
-.load{
+
+/* ---------- Loading screen ---------- */
+.load {
     width: 97vw;
     height: 95vh;
-    margin:20px auto;
+    margin: 20px auto;
     justify-content: space-between;
     align-items: flex-start;
 }
-.load .text{
+
+.load .text {
     width: 99%;
     height: 90%;
-    font-size: 90px;
+    font-size: clamp(36px, 10vw, 90px); /* responsive font size */
     color: white;
     font-weight: 900;
 }
-.load .move{
+
+.load .move {
     width: 7%;
     height: 10%;
-
     animation: movein 3s linear forwards;
-    
 }
-.hide{
+
+.hide {
     display: none;
 }
-@keyframes movein{
-to{
-    transform: translate(1300px);
+
+@keyframes movein {
+    to {
+        transform: translate(1300px);
+    }
 }
-} 
-#red{
+
+#red {
     color: red;
 }
-.aud{
+
+.aud {
     display: none;
 }
-.home{
+
+/* ---------- Home (weapon/map selection) ---------- */
+.home {
     width: 95vw;
     height: 80vh;
     background-color: rgb(6, 48, 48);
     margin: 50px auto;
     padding: 2px;
-    overflow: hidden;  
+    overflow: hidden;
     justify-content: space-between;
 }
-.home div{
+
+.home div {
     width: 29.7%;
     height: 99%;
     justify-content: space-between;
     background-color: rgb(25, 41, 41);
 }
-.home .man{
+
+.home .man {
     width: 40%;
     height: 90%;
 }
-.home .get{
+
+.home .get {
     transition: .3s;
     width: 99%;
     height: 29%;
     scale: 0.8;
     background-color: rgb(98, 136, 238);
 }
-.home .get:hover{
-scale: 1;
+
+.home .get:hover {
+    scale: 1;
 }
-.bor{
+
+.bor {
     border: 7px solid rgb(250, 45, 45);
     border-radius: 20px;
 }
-.home p{
+
+.home p {
     height: 10%;
-    font-size: 40px;
+    font-size: clamp(24px, 3vw, 40px);  /* responsive */
     font-weight: 800;
     color: white;
 }
-.container {
 
+/* ---------- Game container ---------- */
+.container {
     position: relative;
     width: 95vw;
     height: 80vh;
@@ -147,7 +169,7 @@ scale: 1;
     overflow: hidden;
 }
 
-
+/* ---------- Player / gun / bullets ---------- */
 .gun {
     position: absolute;
     width: 100px;
@@ -170,18 +192,13 @@ scale: 1;
     display: none;
 }
 
-img {
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-}
-
 .enemy {
     position: absolute;
     width: 70px;
     height: 60px;
 }
 
+/* ---------- Stands / obstacles ---------- */
 .stand {
     position: absolute;
     background-color: rgb(10, 10, 10);
@@ -219,7 +236,9 @@ img {
     border: 2px solid;
     background-color: rgb(12, 1, 1);
 }
-.boss{
+
+/* ---------- Boss section ---------- */
+.boss {
     display: none;
 }
 
@@ -233,6 +252,7 @@ img {
     animation: 6s grow linear forwards;
     animation-delay: 2s;
 }
+
 .laser {
     transition: .3s;
     position: absolute;
@@ -258,7 +278,6 @@ img {
     bottom: 60px;
     left: 700px;
     display: none;
-
     animation: 6s grow linear forwards;
 }
 
@@ -271,6 +290,13 @@ img {
     background-color: rgb(153, 23, 23);
 }
 
+.incr {
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+}
+
+/* ---------- Player fire / health ---------- */
 .fire {
     transition: .1s;
     position: absolute;
@@ -287,14 +313,7 @@ img {
     height: 100px;
     right: 580px;
     top: 300px;
-
     display: none;
-}
-
-.incr {
-    width: 100%;
-    height: 100%;
-    background-color: blue;
 }
 
 .soilhealth {
@@ -312,6 +331,7 @@ img {
     background-color: rgb(179, 255, 0);
 }
 
+/* ---------- Text info ---------- */
 .killed {
     margin-top: 20px;
     font-size: 20px;
@@ -326,6 +346,7 @@ img {
     margin-top: 20px;
 }
 
+/* ---------- Backgrounds ---------- */
 .sky {
     height: 81%;
 }
@@ -334,6 +355,11 @@ img {
     height: 22%;
 }
 
+.sky2 {
+    display: none;
+}
+
+/* ---------- Player sprite ---------- */
 .shadow-man {
     transition: .1s;
     position: absolute;
@@ -342,7 +368,7 @@ img {
     background: url('../img/shadow_man.png') no-repeat center;
     background-size: cover;
     left: 90px;
-    top: 180px;
+    top: 60px;
 }
 
 .cover {
@@ -366,10 +392,11 @@ img {
     display: none;
 }
 
+/* ---------- HUD / top bar ---------- */
 .contlay {
     width: 80vw;
     height: 5vh;
-    margin:20px auto;
+    margin: 20px auto;
     justify-content: space-between;
     background-color: rgb(231, 229, 229);
     border-radius: 20%;
@@ -378,27 +405,240 @@ img {
 .contlay div {
     width: 30%;
     height: 100%;
-    font-size: 25px;
+    font-size: clamp(14px, 2.2vw, 25px);  /* responsive */
     font-weight: 700;
     color: blue;
 }
-.hit p{
+
+.hit p {
     color: red;
 }
-.coin p{
+
+.coin p {
     color: rgb(168, 146, 19);
 }
+
 .contlay span {
     color: rgb(11, 116, 116);
 }
 
-.sky2 {
-
-    display: none;
-}
-.display{
+/* ---------- Result screen ---------- */
+.display {
     width: 90vw;
     height: 80vh;
-    margin:65px auto;
+    margin: 65px auto;
     display: none;
+}
+
+.display img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =================== RESPONSIVE STYLES =================== */
+
+/* -------- Large tablets / small laptops -------- */
+@media (max-width: 1200px) {
+    .home {
+        height: auto;
+    }
+
+    .home .man {
+        height: auto;
+    }
+
+    .contlay {
+        width: 95vw;
+    }
+}
+
+/* -------- Tablets & landscape phones -------- */
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Loading */
+    .load {
+        height: 70vh;
+        margin: 10px auto;
+    }
+
+    .load .text {
+        text-align: center;
+    }
+
+    .load .move {
+        width: 15%;
+        height: auto;
+    }
+
+    /* Home screen stacks vertically */
+    .home {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        margin: 20px auto;
+        gap: 16px;
+    }
+
+    .home > div,
+    .home .man {
+        width: 100%;
+        height: auto;
+    }
+
+    .home .get {
+        scale: 1;
+        width: 90%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .home p {
+        height: auto;
+        margin: 8px 0;
+        text-align: center;
+    }
+
+    /* HUD bar: wrap into multiple rows */
+    .contlay {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 8px 10px;
+        border-radius: 16px;
+        gap: 8px;
+    }
+
+    .contlay img {
+        display: none; /* hide decorative wall image on small screens */
+    }
+
+    .contlay > div {
+        width: 48%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Game area uses full width, slightly less height */
+    .container {
+        width: 100vw;
+        height: 70vh;
+        margin: 10px auto;
+    }
+
+    /* Slightly shrink player so it fits better */
+    .shadow-man {
+        left: 5%;
+        bottom: 20%;
+        top: 40px;
+        transform-origin: bottom left;
+        scale: 0.85;
+    }
+
+    /* Result screen */
+    .display {
+        width: 95vw;
+        height: auto;
+        margin: 20px auto;
+    }
+
+    .display img {
+        height: auto;
+    }
+}
+
+/* -------- Small phones -------- */
+@media (max-width: 480px) {
+    .home {
+        margin-top: 10px;
+    }
+
+    .home p {
+        font-size: 20px;
+    }
+
+    .contlay > div {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .container {
+        height: 65vh;
+    }
+
+    .shadow-man {
+        scale: 0.75;
+    }
+
+    .soilhealth {
+        transform: scale(0.9);
+        transform-origin: top left;
+    }
+}
+
+.bbt{
+    width: 90vw;
+    height: 30vh;
+    position: absolute;
+    bottom: 4vh;
+    left: 4vw;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9999;
+}
+.bbt div{
+     width: 40%;
+     font-size: 2rem;
+     display: flex;
+}
+
+.bbt div p{
+    height: 110px;
+    width: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    border-radius: 100%;
+    background: rgba(255, 255, 255, 0.281);
+    border: 7px double rgb(155, 154, 154);
+    margin: 10px;
+}
+
+@media (max-width: 560px) and (orientation: portrait) {
+  /* Hide your main game UIs on narrow portrait screens */
+  .home,
+  main,
+  .display {
+    display: none !important;
+  }
+.bbt{
+    display: flex;
+}
+  /* Full-screen overlay asking user to rotate */
+  body::before {
+    content: "Please rotate your device to landscape to play.";
+    position: fixed;
+    inset: 0;
+    background: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+    z-index: 9999;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-height: 560px)  {
+   .bbt{
+    display: flex;
+}
+ 
 }
