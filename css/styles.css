@@ -366,13 +366,13 @@ main {
 /* ---------- Player sprite ---------- */
 .shadow-man {
     transition: .1s;
-    position: absolute;
+    position: fixed;
     width: 170px;
     height: 220px;
     background: url('../img/shadow_man.png') no-repeat center;
     background-size: cover;
     left: 90px;
-    top: 60px;
+    bottom:  40px;
 }
 
 .cover {
@@ -651,19 +651,28 @@ main {
         display: flex;
     }
 
-    /* c */
     .shadow-man {
         top: 220px;
     }
 }
 
-@media (max-width: 980px) {
+@media ( (max-height: 780px) and (max-width: 980px)) {
     .bbt {
         display: flex;
     }
 
-    /* c */
     .shadow-man {
         top: 460px;
+    }
+}
+
+@media ((min-height: 480px) and (max-width: 980px) ) {
+    .bbt {
+        display: flex;
+    }
+
+    .shadow-man {
+        top: unset;
+        bottom: 0 !important;
     }
 }
