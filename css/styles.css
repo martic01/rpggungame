@@ -7,6 +7,7 @@
     padding: 0;
     box-sizing: border-box;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -14,6 +15,7 @@ html {
 }
 
 body {
+    user-select: none;
     background-color: rgb(10, 0, 0);
 }
 
@@ -82,7 +84,8 @@ main {
 .load .text {
     width: 99%;
     height: 90%;
-    font-size: clamp(36px, 10vw, 90px); /* responsive font size */
+    font-size: clamp(36px, 10vw, 90px);
+    /* responsive font size */
     color: white;
     font-weight: 900;
 }
@@ -153,7 +156,8 @@ main {
 
 .home p {
     height: 10%;
-    font-size: clamp(24px, 3vw, 40px);  /* responsive */
+    font-size: clamp(24px, 3vw, 40px);
+    /* responsive */
     font-weight: 800;
     color: white;
 }
@@ -395,7 +399,7 @@ main {
 /* ---------- HUD / top bar ---------- */
 .contlay {
     width: 80vw;
-    height: 5vh;
+    height: 10vh;
     margin: 20px auto;
     justify-content: space-between;
     background-color: rgb(231, 229, 229);
@@ -405,7 +409,8 @@ main {
 .contlay div {
     width: 30%;
     height: 100%;
-    font-size: clamp(14px, 2.2vw, 25px);  /* responsive */
+    font-size: clamp(14px, 2.2vw, 25px);
+    /* responsive */
     font-weight: 700;
     color: blue;
 }
@@ -483,7 +488,7 @@ main {
         gap: 16px;
     }
 
-    .home > div,
+    .home>div,
     .home .man {
         width: 100%;
         height: auto;
@@ -512,10 +517,11 @@ main {
     }
 
     .contlay img {
-        display: none; /* hide decorative wall image on small screens */
+        display: none;
+        /* hide decorative wall image on small screens */
     }
 
-    .contlay > div {
+    .contlay>div {
         width: 48%;
         justify-content: center;
         text-align: center;
@@ -559,7 +565,7 @@ main {
         font-size: 20px;
     }
 
-    .contlay > div {
+    .contlay>div {
         width: 100%;
         font-size: 14px;
     }
@@ -578,7 +584,7 @@ main {
     }
 }
 
-.bbt{
+.bbt {
     width: 90vw;
     height: 30vh;
     position: absolute;
@@ -589,13 +595,14 @@ main {
     align-items: center;
     z-index: 9999;
 }
-.bbt div{
-     width: 40%;
-     font-size: 2rem;
-     display: flex;
+
+.bbt div {
+    width: 40%;
+    font-size: 2rem;
+    display: flex;
 }
 
-.bbt div p{
+.bbt div p {
     height: 110px;
     width: 110px;
     display: flex;
@@ -609,36 +616,54 @@ main {
 }
 
 @media (max-width: 560px) and (orientation: portrait) {
-  /* Hide your main game UIs on narrow portrait screens */
-  .home,
-  main,
-  .display {
-    display: none !important;
-  }
-.bbt{
-    display: flex;
-}
-  /* Full-screen overlay asking user to rotate */
-  body::before {
-    content: "Please rotate your device to landscape to play.";
-    position: fixed;
-    inset: 0;
-    background: #000;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 24px;
-    z-index: 9999;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 1.2rem;
-  }
+
+    /* Hide your main game UIs on narrow portrait screens */
+    .home,
+    main,
+    .display {
+        display: none !important;
+    }
+
+    .bbt {
+        display: flex;
+    }
+
+    /* Full-screen overlay asking user to rotate */
+    body::before {
+        content: "Please rotate your device to landscape to play.";
+        position: fixed;
+        inset: 0;
+        background: #000;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 24px;
+        z-index: 9999;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 1.2rem;
+    }
 }
 
-@media (max-height: 560px)  {
-   .bbt{
-    display: flex;
+@media (max-width: 720px) {
+    .bbt {
+        display: flex;
+    }
+
+    /* c */
+    .shadow-man {
+        top: 220px;
+    }
 }
- 
+
+@media (max-width: 980px) {
+    .bbt {
+        display: flex;
+    }
+
+    /* c */
+    .shadow-man {
+        top: 460px;
+    }
 }
