@@ -662,17 +662,35 @@ main {
     }
 
     .shadow-man {
-        top: 460px;
+        top: 400px;
     }
 }
-
-@media ((min-height: 480px) and (max-width: 980px) ) {
+@media (max-height: 570px ) {
     .bbt {
         display: flex;
     }
-
-    .shadow-man {
-        top: unset;
-        bottom: 0 !important;
+  .shadow-man {
+        top: 300px;
     }
+
+}
+
+@media (max-height: 470px ) {
+    .bbt {
+        display: flex;
+    }
+  .shadow-man {
+        top: 200px;
+    }
+
+}
+
+@media (max-height: 320px ) {
+    .bbt {
+        display: flex;
+    }
+  .shadow-man {
+        top: 130px;
+    }
+
 }
